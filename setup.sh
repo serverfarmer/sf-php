@@ -40,7 +40,7 @@ if [ -d /usr/local/cpanel ]; then
 	exit 0
 fi
 
-bash /opt/farm/scripts/setup/role.sh php-cli
+/opt/farm/scripts/setup/role.sh php-cli
 echo "setting up php configuration"
 
 mkdir -p /var/log/php
