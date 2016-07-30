@@ -59,6 +59,10 @@ else
 	chown -R www-data:www-data /var/log/php
 	chmod g+w /var/log/php/*.log
 
+	if [ "$OSVER" = "ubuntu-xenial" ] && [ ! -d /etc/php5 ] && [ ! -h /etc/php5 ]; then
+		ln -s /etc/php/7.0 /etc/php5
+	fi
+
 	process_php_ini /etc/php5/cli/php.ini
 	process_php_ini /etc/php5/cgi/php.ini
 	process_php_ini /etc/php5/fpm/php.ini
