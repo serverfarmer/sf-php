@@ -14,7 +14,12 @@ set_php_option() {
 		echo "$key =" >>$file
 	fi
 
-	sed -i -e "s/^\($key\)[ =].*/\\1 = $value/" $file
+	if [ "$OSVER" = "netbsd-6" ]; then
+		sed -e "s/^\($key\)[ =].*/\\1 = $value/" $file >$file.$$
+		cat $file.$$ >$file
+	else
+		sed -i -e "s/^\($key\)[ =].*/\\1 = $value/" $file
+	fi
 }
 
 process_php_ini() {
@@ -45,7 +50,16 @@ echo "setting up php configuration"
 
 mkdir -p /var/log/php
 
-if [ "$OSTYPE" != "debian" ]; then
+if [ "$OSTYPE" = "netbsd" ]; then
+
+	chmod 0777 /var/log/php
+	process_php_ini /usr/pkg/etc/php.ini
+
+	if [ -f /usr/pkg/bin/php ] && [ ! -f /usr/bin/php5 ]; then
+		ln -s /usr/pkg/bin/php /usr/bin/php5
+	fi
+
+elif [ "$OSTYPE" = "redhat" ]; then
 
 	chmod 0777 /var/log/php
 	process_php_ini /etc/php.ini
@@ -54,7 +68,8 @@ if [ "$OSTYPE" != "debian" ]; then
 		ln -s /usr/bin/php /usr/bin/php5
 	fi
 
-else
+elif [ "$OSTYPE" = "debian" ]; then
+
 	touch /var/log/php/php-error.log
 	chown -R www-data:www-data /var/log/php
 	chmod g+w /var/log/php/*.log
