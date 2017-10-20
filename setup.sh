@@ -45,7 +45,7 @@ if [ -d /usr/local/cpanel ]; then
 	exit 0
 fi
 
-/opt/farm/scripts/setup/role.sh php-cli
+/opt/farm/ext/repos/install.sh php-cli
 echo "setting up php configuration"
 
 mkdir -p /var/log/php
