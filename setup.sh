@@ -74,7 +74,7 @@ elif [ "$OSTYPE" = "debian" ]; then
 	chown -R www-data:www-data /var/log/php
 	chmod g+w /var/log/php/*.log
 
-	if [ "$OSVER" = "ubuntu-xenial" ] && [ ! -d /etc/php5 ] && [ ! -h /etc/php5 ]; then
+	if [ ! -e /etc/php5 ] && [ -d /etc/php/7.0 ]; then
 		ln -s /etc/php/7.0 /etc/php5
 	fi
 
