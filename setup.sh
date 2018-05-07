@@ -39,6 +39,14 @@ process_php_ini() {
 	fi
 }
 
+link_php_compat_directory() {
+	version=$1
+	if [ ! -e /etc/php5 ] && [ -d /etc/php/$version ]; then
+		echo "found php $version, creating symlink /etc/php5"
+		ln -s /etc/php/$version /etc/php5
+	fi
+}
+
 
 if [ -d /usr/local/cpanel ]; then
 	echo "skipping php setup, system is controlled by cPanel"
@@ -74,9 +82,9 @@ elif [ "$OSTYPE" = "debian" ]; then
 	chown -R www-data:www-data /var/log/php
 	chmod g+w /var/log/php/*.log
 
-	if [ ! -e /etc/php5 ] && [ -d /etc/php/7.0 ]; then
-		ln -s /etc/php/7.0 /etc/php5
-	fi
+	link_php_compat_directory 7.0
+	link_php_compat_directory 7.1
+	link_php_compat_directory 7.2
 
 	process_php_ini /etc/php5/cli/php.ini
 	process_php_ini /etc/php5/cgi/php.ini
