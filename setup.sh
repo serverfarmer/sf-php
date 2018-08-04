@@ -53,9 +53,13 @@ if [ -d /usr/local/cpanel ]; then
 	exit 0
 fi
 
-/opt/farm/ext/farm-roles/install.sh php-cli
-echo "setting up php configuration"
+if grep -q php /etc/apt/sources.list 2>/dev/null || grep -q php /etc/apt/sources.list.d/*.list 2>/dev/null; then
+	echo "detected custom php version, skipping installing php packages"
+else
+	/opt/farm/ext/farm-roles/install.sh php-cli
+fi
 
+echo "setting up php configuration"
 mkdir -p /var/log/php
 
 if [ "$OSTYPE" = "netbsd" ]; then
