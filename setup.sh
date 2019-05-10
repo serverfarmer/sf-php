@@ -86,6 +86,7 @@ elif [ "$OSTYPE" = "debian" ]; then
 	chown -R www-data:www-data /var/log/php
 	chmod g+w /var/log/php/*.log
 
+	link_php_compat_directory 5.6  # eg. ppa:ondrej/php
 	link_php_compat_directory 7.0
 	link_php_compat_directory 7.1
 	link_php_compat_directory 7.2
