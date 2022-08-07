@@ -92,6 +92,9 @@ elif [ "$OSTYPE" = "debian" ]; then
 	link_php_compat_directory 7.2
 	link_php_compat_directory 7.3
 	link_php_compat_directory 7.4
+	link_php_compat_directory 8.0
+	link_php_compat_directory 8.1
+	link_php_compat_directory 8.2
 
 	process_php_ini /etc/php5/cli/php.ini
 	process_php_ini /etc/php5/cgi/php.ini
